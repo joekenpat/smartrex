@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="minimal-ui,width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <meta name="theme-color" content="#41b883">
+    <title>SMARTREX</title>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but SMARTREX doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
+    </noscript>
+    <div id="app">
+      <div class='body'>
+        <svg viewBox="-2000 -1000 4000 2000">
+          <path
+            id="inf"
+            d="M354-354A500 500 0 1 1 354 354L-354-354A500 500 0 1 0-354 354z"
+          ></path>
+          <use
+            xlink:href="#inf"
+            stroke-dasharray="1570 5143"
+            stroke-dashoffset="6713px"
+          ></use>
+        </svg>
+        <h1>SMARTREX</h1>
+        <!-- <h2>Made by<br/><b>@joekenpat</b><br />With &#10084;</h2> -->
+        <style>
+          h1 {
+            position: absolute;
+            font-weight: 600;
+            font-size: 18px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
+            left: 49%;
+            top: 60%;
+            color:#41b883;
+            margin-left: -40px;
+          }
+          h2{
+            position: absolute;
+            font-weight: 400;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+            left: 48%;
+            bottom: 10%;
+            color:#41b883;
+            margin-left: -40px;
+            text-align: center;
+          }
+          svg {
+            display: block;
+            padding-top:200px;
+            margin: auto;
+            max-width: 25em;
+            border-radius: 3px;
+            background: #fff;
+            fill: none;
+            stroke: #41b883;
+            stroke-linecap: round;
+            stroke-width: 4%;
+          }
+
+          use {
+            stroke: #fff;
+            animation: a 2s linear infinite;
+          }
+
+          @keyframes a {
+            to {
+              stroke-dashoffset: 0px;
+            }
+          }
+              </style>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

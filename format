@@ -1,0 +1,6 @@
+"scripts": {
+  …
+  "format": "prettier-eslint —eslint-config-path ./.eslintrc.js --write '**/*.js'”,
+  "lint”: "eslint . —ext .js”,
+  …
+}
