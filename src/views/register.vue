@@ -321,10 +321,11 @@
   </v-container>
 </template>
 <script>
+import { mapActions } from "vuex";
+import Axios from "axios";
 import ImageInput from "../components/ImageInput";
 import StatesLgas from "./StatesLgas";
 import Specialties from "./Specialties";
-import Axios from "axios";
 export default {
   data() {
     return {
@@ -392,6 +393,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["set_notification"]),
     jsonToFormData(data) {
       const formData = new FormData();
 
@@ -556,8 +558,8 @@ export default {
     registration_success() {
       this.set_notification({
         show: true,
-        status: "success",
-        message: "Account Created Successfully, Redirecting in 2secs",
+        status: "info",
+        message: "Account Created Successfully, Redirecting you Login",
       });
       this.loading = !this.loading;
       setTimeout(() => {
@@ -573,10 +575,11 @@ export default {
           `https://smartrex-server.herokuapp.com/api/v1/${account_type}/create`,
           validFormData
         )
-          .then((res) => {
+          .then(() => {
             this.registration_success();
           })
           .catch((error) => {
+            console.log(error);
             this.registration_failed(error.response.data.message);
           });
       }

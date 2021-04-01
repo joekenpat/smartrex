@@ -30,15 +30,15 @@
       class="pt-0"
       color="#41b883"
     >
-      <v-btn :to="{name:'nearby_doctors'}" class="pt-1">
+      <v-btn :to="{ name: 'nearby_doctors' }" class="pt-1">
         <span>DOCTORS</span>
         <v-icon large>mdi-doctor</v-icon>
       </v-btn>
-      <v-btn :to="{name:'diagnose'}" class="pt-1">
+      <v-btn :to="{ name: 'diagnose' }" class="pt-1">
         <span>DIAGNOSE</span>
         <v-icon large>mdi-stethoscope</v-icon>
       </v-btn>
-      <v-btn :to="{name:'nearby_hospitals'}" class="pt-1">
+      <v-btn :to="{ name: 'nearby_hospitals' }" class="pt-1">
         <span>HOSPITALS</span>
         <v-icon large>mdi-hospital-building</v-icon>
       </v-btn>
@@ -52,23 +52,23 @@
       ></v-progress-circular>
     </v-overlay>
     <v-main class="white">
-    <v-alert
-      dense
-      dismissible
-      class="mb-0 rounded-0"
-      v-model="$store.state.notification.show"
-      :type="`${$store.state.notification.status}`"
-    >
-      {{ $store.state.notification.message }}
-    </v-alert>
+      <v-alert
+        dense
+        dismissible
+        class="mb-0 rounded-0"
+        v-model="$store.state.notification.show"
+        :type="`${$store.state.notification.status}`"
+      >
+        {{ $store.state.notification.message }}
+      </v-alert>
       <router-view class="white"></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import {mapState} from "vuex"
-import Axios from 'axios';
+import { mapState } from "vuex";
+import Axios from "axios";
 export default {
   name: "App",
   data() {
@@ -77,16 +77,20 @@ export default {
       splash: true,
     };
   },
+  created(){
+    this.test_server()
+  },
   computed: {
-    ...mapState(['user_data','current_user']),
+    ...mapState(["user_data", "current_user"]),
     authPage() {
       return this.$route.path == "/auth" || this.$route.path == "/register";
     },
-
   },
   methods: {
     test_server() {
-      Axios.get(`https://smartrex-server.herokuapp.com/api/v1/test`)
+      Axios.get(
+        `https://smartrex-server.herokuapp.com/api/v1/test`
+      ).then(() => {});
     },
   },
 };
