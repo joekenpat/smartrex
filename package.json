@@ -1,6 +1,6 @@
 {
   "name": "smartrex",
-  "version": "1.23.6",
+  "version": "1.23.7",
   "description": "A web Self Triage Application",
   "repository": "https://git.heroku.com/smartrex.git",
   "author": "Patrick Joel <joekenpat@gmail.com>",
