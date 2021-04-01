@@ -108,7 +108,6 @@ export default {
           auth_data
         )
           .then((res) => {
-            console.log(res.data);
             this.set_current_user(res.data._id);
             this.set_user_data(res.data);
             this.fetch_nearby_doctors();

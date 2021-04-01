@@ -68,6 +68,7 @@
 
 <script>
 import {mapState} from "vuex"
+import Axios from 'axios';
 export default {
   name: "App",
   data() {
@@ -84,11 +85,8 @@ export default {
 
   },
   methods: {
-    log_out() {
-      this.$store.state.loader = true;
-      this.$store.dispatch("log_out");
-      this.$store.state.loader = false;
-      this.$router.push("/auth");
+    test_server() {
+      Axios.get(`https://smartrex-server.herokuapp.com/api/v1/test`)
     },
   },
 };

@@ -574,11 +574,9 @@ export default {
           validFormData
         )
           .then((res) => {
-            console.log(res);
             this.registration_success();
           })
           .catch((error) => {
-            console.log(error);
             this.registration_failed(error.response.data.message);
           });
       }
