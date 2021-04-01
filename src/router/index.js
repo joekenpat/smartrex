@@ -36,9 +36,9 @@ let router = new Router({
       meta: { requireAuth: true }
     },
     {
-      path: "/user_profile",
-      name: "user_profile",
-      component: () => import("../views/user_profile.vue"),
+      path: "/doctor_details/:doctor_id",
+      name: "doctor_details",
+      component: () => import("../views/DoctorDetails.vue"),
       props: true,
       meta: { requireAuth: true }
     },

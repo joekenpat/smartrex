@@ -23,23 +23,6 @@
         <v-card class="mx-auto elevation-0" max-width="500">
           <v-container v-if="!result" class="py-0">
             <v-row align="center" justify="start">
-              <v-col
-                v-for="(selection, i) in selections"
-                :key="selection"
-                class="shrink pa-1"
-              >
-                <v-chip
-                  :disabled="loading"
-                  close
-                  @click:close="selected.splice(i, 1)"
-                  small
-                  color="#41b883"
-                  text-color="white"
-                >
-                  <v-icon left></v-icon>
-                  {{ selection }}
-                </v-chip>
-              </v-col>
               <v-col v-if="!result" cols="12">
                 <v-textarea
                   ref="user_explanation"
@@ -48,52 +31,40 @@
                   hide-details
                   label="Talk To Smartrex"
                   auto-grow
-                  rows="1"
+                  color="#41b883"
+                  outlined
+                  shaped
+                  clearable
+                  class="mb-"
+                />
+                <v-btn
+                  x-large
+                  block
+                  tile
+                  color="#41b883"
+                  class="mb-5 elevation-1"
+                  :disabled="!user_explanation || loading"
+                  @click="ai_diagnose_user()"
                 >
-                  <v-btn
-                    slot="append"
-                    @click="(loading = true), ai_diagnose_user()"
-                    text
-                    icon
-                    class="my-auto pa-0"
-                    color="#41b883"
-                    :disabled="user_explanation == ''"
-                  >
-                    <v-icon>mdi-send</v-icon>
-                  </v-btn>
-                </v-textarea>
+                  <v-icon large color="white">mdi-medical-bag</v-icon>
+                </v-btn>
               </v-col>
             </v-row>
           </v-container>
-
-          <v-divider v-if="!allSelected"></v-divider>
-
-          <v-list v-if="!result">
-            <v-slide-x-transition class="py-0" group>
-              <template v-for="(item, i) in symptom_list">
-                <v-list-item
-                  v-if="!selected.includes(i)"
-                  :key="i"
-                  :disabled="loading"
-                  @click="selected.push(i)"
-                >
-                  <v-list-item-title v-text="item"></v-list-item-title>
-                  <v-list-item-avatar class="my-0">
-                    <v-icon color="#41b883">mdi-plus</v-icon>
-                  </v-list-item-avatar>
-                </v-list-item>
-              </template>
-            </v-slide-x-transition>
-          </v-list>
           <v-list v-if="result">
             <v-subheader class="mx-auto px-auto">Possible Ailments</v-subheader>
             <v-slide-x-transition class="py-0" group>
-              <template v-for="item in diseases">
-                <v-list-item :key="item">
-                  <v-list-item-avatar class="my-0">
-                    <v-icon color="#41b883">mdi-information-variant</v-icon>
+              <template v-for="(disease,index) in diseases">
+                <v-list-item :key="disease">
+                  <v-list-item-avatar size="25" color="red accent-2" class="my-0">
+                    <v-icon color="white" v-text="index+1"></v-icon>
                   </v-list-item-avatar>
-                  <v-list-item-title v-text="item"></v-list-item-title>
+                  <v-list-item-title v-text="disease"></v-list-item-title>
+                  <v-divider
+                  v-if="index + 1 < diseases.length"
+                  :key="index"
+                  inset
+                ></v-divider>
                 </v-list-item>
               </template>
             </v-slide-x-transition>
@@ -116,324 +87,13 @@ import axios from "axios";
 export default {
   data() {
     return {
-      symptoms: [
-        "aging, premature",
-        "fever",
-        "hypothermia",
-        "body weight",
-        "birth weight",
-        "weight loss",
-        "cyanosis",
-        "muscle hypertonia",
-        "muscle rigidity",
-        "muscle weakness",
-        "quadriplegia",
-        "reflex, abnormal",
-        "seizures",
-        "abdominal pain",
-        "anorexia",
-        "diarrhea, infanti",
-        "nausea",
-        "anoxia",
-        "apnea",
-        "cough",
-        "dyspnea",
-        "hemoptysis",
-        "hypercapnia",
-        "hyperventilation",
-        "respiratory aspir",
-        "respiratory sound",
-        "proteinuria",
-        "weight gain",
-        "cachexia",
-        "obesity",
-        "edema",
-        "paralysis",
-        "hearing disorders",
-        "hearing loss",
-        "hearing loss, con",
-        "hearing loss, sen",
-        "sleep disorders",
-        "sleep deprivation",
-        "oral manifestatio",
-        "diarrhea",
-        "hyperoxia",
-        "sneezing",
-        "asthenia",
-        "fever of unknown ",
-        "fetal macrosomia",
-        "emaciation",
-        "overweight",
-        "obesity, morbid",
-        "thinness",
-        "cardiac output, l",
-        "hydrops fetalis",
-        "eye hemorrhage",
-        "fatigue",
-        "fetal distress",
-        "hot flashes",
-        "hypergammaglobuli",
-        "mobility limitati",
-        "cerebrospinal flu",
-        "dyskinesias",
-        "ataxia",
-        "cerebellar ataxia",
-        "gait ataxia",
-        "athetosis",
-        "chorea",
-        "dystonia",
-        "hyperkinesis",
-        "hypokinesia",
-        "myoclonus",
-        "psychomotor agita",
-        "akathisia, drug-i",
-        "tics",
-        "tremor",
-        "gait disorders, n",
-        "meningism",
-        "apraxias",
-        "catatonia",
-        "communication dis",
-        "language disorder",
-        "dyslexia",
-        "alexia, pure",
-        "language developm",
-        "speech disorders",
-        "aphasia",
-        "aphasia, broca",
-        "dysarthria",
-        "learning disorder",
-        "confusion",
-        "delirium",
-        "consciousness dis",
-        "unconsciousness",
-        "coma",
-        "syncope",
-        "memory disorders",
-        "amnesia",
-        "mental retardatio",
-        "auditory perceptu",
-        "hallucinations",
-        "psychomotor disor",
-        "muscle cramp",
-        "muscle spasticity",
-        "muscle hypotonia",
-        "muscular atrophy",
-        "myotonia",
-        "tetany",
-        "pain",
-        "back pain",
-        "low back pain",
-        "facial pain",
-        "headache",
-        "neck pain",
-        "neuralgia",
-        "neuralgia, posthe",
-        "sciatica",
-        "pain, intractable",
-        "facial paralysis",
-        "gastroparesis",
-        "hemiplegia",
-        "ophthalmoplegia",
-        "ophthalmoplegia, ",
-        "paraplegia",
-        "pseudobulbar pals",
-        "respiratory paral",
-        "vocal cord paraly",
-        "paresis",
-        "paraparesis",
-        "paraparesis, spas",
-        "psychophysiologic",
-        "sensation disorde",
-        "dizziness",
-        "deafness",
-        "hearing loss, bil",
-        "hearing loss, noi",
-        "tinnitus",
-        "olfaction disorde",
-        "somatosensory dis",
-        "hyperalgesia",
-        "hyperesthesia",
-        "hypesthesia",
-        "paresthesia",
-        "taste disorders",
-        "dysgeusia",
-        "vision disorders",
-        "blindness",
-        "blindness, cortic",
-        "color vision defe",
-        "diplopia",
-        "hemianopsia",
-        "vision, low",
-        "urinary bladder, ",
-        "vertigo",
-        "voice disorders",
-        "hoarseness",
-        "oral hemorrhage",
-        "abdomen, acute",
-        "colic",
-        "arthralgia",
-        "chest pain",
-        "angina pectoris",
-        "acute coronary sy",
-        "angina, unstable",
-        "earache",
-        "toothache",
-        "pain, postoperati",
-        "pelvic pain",
-        "constipation",
-        "dyspepsia",
-        "flatulence",
-        "heartburn",
-        "hiccup",
-        "hyperphagia",
-        "bulimia",
-        "vomiting",
-        "hematemesis",
-        "mouth breathing",
-        "snoring",
-        "ecchymosis",
-        "jaundice",
-        "jaundice, obstruc",
-        "pruritus",
-        "tinea pedis",
-        "purpura",
-        "purpura, schoenle",
-        "purpura, thromboc",
-        "purpura, thrombot",
-        "hypercalciuria",
-        "polyuria",
-        "albuminuria",
-        "hemoglobinuria",
-        "urinary incontine",
-        "virilism",
-        "neurologic manife",
-        "torticollis",
-        "aphasia, wernicke",
-        "stuttering",
-        "gerstmann syndrom",
-        "illusions",
-        "phantom limb",
-        "spasm",
-        "reflex, babinski",
-        "hearing loss, cen",
-        "hearing loss, sud",
-        "hyperacusis",
-        "shoulder pain",
-        "fetal hypoxia",
-        "skin manifestatio",
-        "body weight chang",
-        "chills",
-        "edema, cardiac",
-        "mental fatigue",
-        "feminization",
-        "flushing",
-        "intermittent clau",
-        "motion sickness",
-        "syncope, vasovaga",
-        "lethargy",
-        "perceptual disord",
-        "trismus",
-        "pupil disorders",
-        "horner syndrome",
-        "scotoma",
-        "angina pectoris, ",
-        "reticulocytosis",
-        "postoperative nau",
-        "hyperemesis gravi",
-        "vomiting, anticip",
-        "dyspnea, paroxysm",
-        "hypoventilation",
-        "livedo reticulari",
-        "dysuria",
-        "hirsutism",
-        "hearing loss, hig",
-        "dysphonia",
-        "glossalgia",
-        "halitosis",
-        "cafe-au-lait spot",
-        "cardiac output, h",
-        "eye manifestation",
-        "heart murmurs",
-        "hearing loss, uni",
-        "amblyopia",
-        "photophobia",
-        "pseudophakia",
-        "pallor",
-        "waterhouse-frider",
-        "oliguria",
-        "flank pain",
-        "fetal weight",
-        "mutism",
-        "hearing loss, mix",
-        "amaurosis fugax",
-        "purpura, hyperglo",
-        "persistent vegeta",
-        "sarcopenia",
-        "presbycusis",
-        "prostatism",
-        "pain, referred",
-        "brown-sequard syn",
-        "dysmenorrhea",
-        "cheyne-stokes res",
-        "labor pain",
-        "articulation diso",
-        "gagging",
-        "supranuclear pals",
-        "agnosia",
-        "fasciculation",
-        "metatarsalgia",
-        "ageusia",
-        "aphonia",
-        "purpura fulminans",
-        "gait apraxia",
-        "neurobehavioral m",
-        "orthostatic intol",
-        "hypocapnia",
-        "prosopagnosia",
-        "anisocoria",
-        "korsakoff syndrom",
-        "decerebrate state",
-        "miosis",
-        "necrolytic migrat",
-        "synkinesis",
-        "hemifacial spasm",
-        "hearing loss, fun",
-        "agraphia",
-        "dyslexia, acquire",
-        "deaf-blind disord",
-        "usher syndromes",
-        "catalepsy",
-        "anomia",
-        "aphasia, conducti",
-        "aphasia, primary ",
-        "stupor",
-        "amnesia, anterogr",
-        "amnesia, retrogra",
-        "apraxia, ideomoto",
-        "tonic pupil",
-        "encopresis",
-        "echolalia",
-        "aerophagy",
-        "eructation",
-        "amnesia, transien",
-        "myokymia",
-        "primary progressi",
-        "coprophagia",
-        "nocturia",
-        "renal colic",
-        "urinoma",
-        "systolic murmurs",
-        "striae distensae",
-        "morning sickness",
-        "eye pain",
-        "sweating sickness"
+      diseases: [
+        'ant','goat','sdr'
       ],
-      diseases: [],
       loading: false,
       user_explanation: "",
       selected: [],
-      result: false
+      result: false,
     };
   },
   methods: {
@@ -441,12 +101,12 @@ export default {
       this.loading = true;
       axios
         .post("https://smartrex-server.herokuapp.com/api/v1/user/ai_diagnose", {
-          user_explanation: this.user_explanation
+          user_explanation: this.user_explanation,
         })
-        .then(res => {
+        .then((res) => {
           this.diseases = [];
           var diseases_found = res.data.data.diseases_found;
-          diseases_found.forEach(disease => {
+          diseases_found.forEach((disease) => {
             this.diseases.push(disease);
           });
           this.user_explanation = "";
@@ -454,14 +114,14 @@ export default {
           this.loading = false;
           return;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.result = false;
           this.loading = false;
           return;
         });
       return;
-    }
+    },
   },
   created() {},
   computed: {
@@ -474,7 +134,7 @@ export default {
       if (!user_explanation) return this.symptoms.slice(0, 5);
 
       return this.symptoms
-        .filter(item => {
+        .filter((item) => {
           const text = item.toLowerCase();
 
           return text.indexOf(user_explanation) > -1;
@@ -489,8 +149,8 @@ export default {
       }
 
       return selections;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -514,6 +174,42 @@ svg {
 @keyframes a {
   to {
     stroke-dashoffset: 0px;
+  }
+}
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

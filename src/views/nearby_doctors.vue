@@ -7,38 +7,39 @@
             <v-slide-x-transition class="py-0" group>
               <template v-for="(item, index) in nearby_doctors">
                 <v-list-item
-                  :to="{ name: 'user_profile', params: { user_data: item } }"
+                  :to="{ name: 'doctor_details', params: { doctor_id: item._id.toString() } }"
                   class="py-0 px-1"
-                  :key="item._id"
+                  :key="'doctor_'+index"
                 >
-                  <template v-slot:default="{ active, toggle }">
-                    <v-list-item-content class="py-0">
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                      <v-list-item-subtitle
-                        class="text--primary"
-                        v-text="item.specialty"
-                      ></v-list-item-subtitle>
-                      <v-list-item-subtitle>{{
-                        item.state + ", " + item.city
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-avatar
-                      class="my-0 ml-2"
-                      size="58"
-                      color="#41b883"
+                  <v-list-item-avatar
+                    class="my-0 mr-3"
+                    size="58"
+                    rounded
+                    color="#41b883"
+                  >
+                    <v-img
+                      :src="item.img"
+                      class="cover-fill bg-cover"
+                      :alt="item.name"
+                    />
+                  </v-list-item-avatar>
+                  <v-list-item-content class="py-0">
+                    <v-list-item-title class="font-weight-bold" v-text="item.name"></v-list-item-title>
+                    <v-list-item-subtitle class="">
+                      {{
+                        `${item.specialty} - ${item.op_years} Years Experience`
+                      }}</v-list-item-subtitle
                     >
-                      <img
-                        :src="item.img"
-                        class="cover-fill bg-cover"
-                        :alt="item.name"
-                      />
-                    </v-list-item-avatar>
-                  </template>
+                    <v-list-item-subtitle class="caption">{{
+                      item.state + ", " + item.city
+                    }}</v-list-item-subtitle>
+                  </v-list-item-content>
                 </v-list-item>
 
                 <v-divider
                   v-if="index + 1 < nearby_doctors.length"
                   :key="index"
+                  inset
                 ></v-divider>
               </template>
             </v-slide-x-transition>
@@ -53,11 +54,11 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      selected: ""
+      selected: "",
     };
   },
   computed: {
-    ...mapState(["nearby_doctors"])
+    ...mapState(["nearby_doctors"]),
   },
   created() {
     this.find_doctors();
@@ -67,7 +68,7 @@ export default {
     find_doctors() {
       this.$store.dispatch("fetch_nearby_doctors");
       return;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -8,14 +8,9 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
 
 Vue.config.productionTip = false;
-
-setTimeout(
-  () =>
-    new Vue({
-      router,
-      store,
-      vuetify,
-      render: h => h(App)
-    }).$mount("#app"),
-  5000
-);
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: (h) => h(App),
+}).$mount("#app");
