@@ -8,7 +8,7 @@
     <input
       type="file"
       ref="file"
-      accept="image/png, image/jpg, image/jpeg, image/svg"
+      accept=".png, .jpg, .jpeg"
       capture="user"
       :name="profilePicture"
       @change="onFileChange($event.target.files)"
@@ -33,7 +33,7 @@ export default {
       errorDialog: null,
       errorText: "",
       profilePicture: "file",
-      maxSize: 2048
+      maxSize: 3072
     };
   },
   props: {
@@ -59,7 +59,7 @@ export default {
           // check whether the size is greater than the size limit
           this.errorDialog = true;
           this.errorText =
-            "Your file is too big! Please select an image under 1MB";
+            "Your file is too big! Please select an image under 3MB";
         } else {
           // turn file into image URL
           const imageURL = URL.createObjectURL(imageFile);
@@ -71,4 +71,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>

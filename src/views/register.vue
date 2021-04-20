@@ -324,8 +324,7 @@
 import { mapActions } from "vuex";
 import Axios from "axios";
 import ImageInput from "../components/ImageInput";
-import StatesLgas from "./StatesLgas";
-import Specialties from "./Specialties";
+import { StatesLgas, Specialties } from "@/config";
 export default {
   data() {
     return {
@@ -567,7 +566,7 @@ export default {
       }, 2000);
     },
     register() {
-      this.loader = true;
+      this.loading = true;
       var { account_type } = this;
       const validFormData = this.validate_form();
       if (validFormData === !false) {

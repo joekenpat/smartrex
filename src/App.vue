@@ -30,15 +30,15 @@
       class="pt-0"
       color="#41b883"
     >
-      <v-btn :to="{ name: 'nearby_doctors' }" class="pt-1">
+      <v-btn :value="1" :to="{ name: 'nearby_doctors' }" class="pt-1">
         <span>DOCTORS</span>
         <v-icon large>mdi-doctor</v-icon>
       </v-btn>
-      <v-btn :to="{ name: 'diagnose' }" class="pt-1">
+      <v-btn :value="2" :to="{ name: 'diagnose' }" class="pt-1">
         <span>DIAGNOSE</span>
         <v-icon large>mdi-stethoscope</v-icon>
       </v-btn>
-      <v-btn :to="{ name: 'nearby_hospitals' }" class="pt-1">
+      <v-btn :value="3" :to="{ name: 'nearby_hospitals' }" class="pt-1">
         <span>HOSPITALS</span>
         <v-icon large>mdi-hospital-building</v-icon>
       </v-btn>
@@ -73,12 +73,13 @@ export default {
   name: "App",
   data() {
     return {
-      bottomNav: 3,
+      bottomNav: 2,
       splash: true,
     };
   },
-  created(){
-    this.test_server()
+  created() {
+    this.test_server();
+    this.checkInitRoute();
   },
   computed: {
     ...mapState(["user_data", "current_user"]),
@@ -87,6 +88,19 @@ export default {
     },
   },
   methods: {
+    checkInitRoute() {
+      switch (this.$route.name) {
+        case "nearby_doctors":
+          this.bottomNav = 1;
+          break;
+        case "nearby_hospitals":
+          this.bottomNav = 3;
+          break;
+        default:
+          this.bottomNav = 2;
+          break;
+      }
+    },
     test_server() {
       Axios.get(
         `https://smartrex-server.herokuapp.com/api/v1/test`

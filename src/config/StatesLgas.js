@@ -1,4 +1,4 @@
-const StatesLgas = [
+const StatesLgas =()=> [
   {
     state: {
       name: "Abia State",
@@ -3245,4 +3245,4 @@ const StatesLgas = [
   },
 ];
 
-export default StatesLgas;
+export default StatesLgas();

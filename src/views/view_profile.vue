@@ -163,8 +163,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import ImageInput from "../components/ImageInput";
-import StatesLgas from "./StatesLgas";
-import Specialties from "./Specialties";
+import { StatesLgas, Specialties } from "@/config";
 import Axios from "axios";
 export default {
   data() {
