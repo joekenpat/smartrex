@@ -14,13 +14,13 @@ if (process.env.NODE_ENV === "production") {
       console.log("Service worker has been registered.");
     },
     cached() {
-      console.log("Content has been cached for offline use.");
+      console.log("Data has been cache for faster newtork calls");
     },
     updatefound() {
-      console.log("New content is downloading.");
+      console.log("New Data found, Downloading...");
     },
     updated() {
-      console.log("New content is available; please refresh.");
+      console.log("Update Completed");
     },
     offline() {
       console.log(
