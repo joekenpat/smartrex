@@ -1,6 +1,6 @@
 {
   "name": "smartrex",
-  "version": "1.23.75",
+  "version": "1.24.0",
   "description": "A web Self Triage Application",
   "repository": "https://github.com/smartrex.git",
   "homepage": "https://smartrex-joekenpat.web.app",
@@ -26,8 +26,6 @@
     "@mdi/font": "^3.6.95",
     "axios": "^0.19.0",
     "core-js": "^3.3.2",
-    "firebase": "^8.3.2",
-    "imagekitio-vue": "^1.0.9",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
     "vue": "^2.6.10",

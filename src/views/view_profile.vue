@@ -162,7 +162,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import ImageInput from "../components/ImageInput";
+import ImageInput from "@/components/ImageInput";
 import { StatesLgas, Specialties } from "@/config";
 import Axios from "axios";
 export default {
@@ -181,11 +181,11 @@ export default {
         city: null,
         address: null,
         specialty: null,
-        img: null,
+        img: null
       },
       b64: null,
       states_lga: StatesLgas,
-      cities: [],
+      cities: []
     };
   },
   watch: {
@@ -198,18 +198,18 @@ export default {
     },
     avatar(val) {
       fetch(val.imageURL)
-        .then((res) => res.blob())
-        .then((blob) => {
+        .then(res => res.blob())
+        .then(blob => {
           const reader = new FileReader();
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
             this.set_b64(reader.result);
           };
         });
-    },
+    }
   },
   components: {
-    ImageInput,
+    ImageInput
   },
   created() {
     this.load_data();
@@ -239,13 +239,13 @@ export default {
             gender: update_user_data.gender,
             img: b64,
             state: update_user_data.state,
-            city: update_user_data.city,
+            city: update_user_data.city
           };
           Axios.post(
             "https://smartrex-server.herokuapp.com/api/v1/user/update",
             update_user
           )
-            .then((res) => {
+            .then(res => {
               console.log(res);
               this.$store.state.notification.status = "success";
               this.$store.state.notification.message =
@@ -255,7 +255,7 @@ export default {
               this.load_data();
               this.form_status = "VIEW";
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
               this.$store.state.notification.status = "error";
               this.$store.state.notification.message =
@@ -284,13 +284,13 @@ export default {
             img: b64,
             state: update_user_data.state,
             city: update_user_data.city,
-            specialty: update_user_data.specialty,
+            specialty: update_user_data.specialty
           };
           Axios.post(
             "https://smartrex-server.herokuapp.com/api/v1/user/update",
             update_doctor
           )
-            .then((res) => {
+            .then(res => {
               console.log(res.data);
               this.$store.state.notification.status = "success";
               this.$store.state.notification.message =
@@ -300,7 +300,7 @@ export default {
               this.load_data();
               this.form_status = "VIEW";
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error.response);
               this.$store.state.notification.status = "error";
               this.$store.state.notification.message =
@@ -329,13 +329,13 @@ export default {
             state: update_user_data.state,
             city: update_user_data.city,
             specialty: update_user_data.specialty,
-            address: update_user_data.address,
+            address: update_user_data.address
           };
           Axios.post(
             "https://smartrex-server.herokuapp.com/api/v1/user/update",
             update_hospital
           )
-            .then((res) => {
+            .then(res => {
               console.log(res);
               this.$store.state.notification.status = "success";
               this.$store.state.notification.message =
@@ -345,7 +345,7 @@ export default {
               this.$store.state.notification.show = true;
               this.load_data();
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
               this.$store.state.notification.status = "error";
               this.$store.state.notification.message =
@@ -361,10 +361,10 @@ export default {
     set_b64(val) {
       this.b64 = val;
       return;
-    },
+    }
   },
   computed: {
-    ...mapState(["current_user", "user_data"]),
-  },
+    ...mapState(["current_user", "user_data"])
+  }
 };
 </script>

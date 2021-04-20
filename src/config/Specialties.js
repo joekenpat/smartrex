@@ -1,4 +1,4 @@
-const Specialties =()=> [
+const Specialties = [
   "Audiologist",
   "Allergist",
   "Anesthesiologist",
@@ -28,7 +28,7 @@ const Specialties =()=> [
   "Radiologist",
   "Rheumatologist",
   "Surgeon",
-  "Urologist",
+  "Urologist"
 ];
 
-export default Specialties();
+export default Specialties;

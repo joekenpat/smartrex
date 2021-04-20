@@ -331,10 +331,10 @@ export default {
       by: "",
       loading: false,
       rules: [
-        (value) =>
+        value =>
           !value ||
           value.size < 2000000 ||
-          "Avatar size should be less than 2 MB!",
+          "Avatar size should be less than 2 MB!"
       ],
       avatar: null,
       user_age_range: [...Array(80 + 1).keys()].slice(5),
@@ -361,11 +361,11 @@ export default {
       re_pin: "",
       specialty_list: Specialties,
       gender_items: ["Male", "Female"],
-      states_lga: StatesLgas,
+      states_lga: StatesLgas
     };
   },
   components: {
-    ImageInput,
+    ImageInput
   },
   watch: {
     state(val) {
@@ -377,8 +377,8 @@ export default {
     },
     avatar(val) {
       fetch(val.imageURL)
-        .then((res) => res.blob())
-        .then((blob) => {
+        .then(res => res.blob())
+        .then(blob => {
           const reader = new FileReader();
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
@@ -389,7 +389,7 @@ export default {
     age(val) {
       this.doc_op_years_range = [...Array(val - 18 + 1).keys()].slice(1);
       this.op_years = "";
-    },
+    }
   },
   methods: {
     ...mapActions(["set_notification"]),
@@ -407,7 +407,7 @@ export default {
         !(data instanceof Date) &&
         !(data instanceof File)
       ) {
-        Object.keys(data).forEach((key) => {
+        Object.keys(data).forEach(key => {
           this.buildFormData(
             formData,
             data[key],
@@ -438,7 +438,7 @@ export default {
         b64,
         account_type,
         name,
-        password,
+        password
       } = this;
       if (account_type == "user") {
         if (
@@ -454,7 +454,7 @@ export default {
           this.set_notification({
             show: true,
             status: "info",
-            message: "One or more empty fields.",
+            message: "One or more empty fields."
           });
           this.step = 1;
           return false;
@@ -468,7 +468,7 @@ export default {
             acct_type: account_type,
             pwd: password,
             state: state,
-            city: city,
+            city: city
           };
         }
       } else if (account_type == "doctor") {
@@ -489,7 +489,7 @@ export default {
           this.set_notification({
             show: true,
             status: "info",
-            message: "One or more empty fields.",
+            message: "One or more empty fields."
           });
           this.step = 1;
           return false;
@@ -506,7 +506,7 @@ export default {
             state: state,
             city: city,
             op_years: op_years,
-            specialty: specialty,
+            specialty: specialty
           };
         }
       } else if (account_type == "hospital") {
@@ -525,7 +525,7 @@ export default {
           this.set_notification({
             show: true,
             status: "info",
-            message: "One or more empty fields.",
+            message: "One or more empty fields."
           });
           this.step = 1;
           return false;
@@ -541,7 +541,7 @@ export default {
             acct_type: account_type,
             op_years: op_years,
             specialty: specialty,
-            address: address,
+            address: address
           };
         }
       }
@@ -550,7 +550,7 @@ export default {
       this.set_notification({
         show: true,
         status: "error",
-        message: error,
+        message: error
       });
       this.loading = !this.loading;
     },
@@ -558,7 +558,7 @@ export default {
       this.set_notification({
         show: true,
         status: "info",
-        message: "Account Created Successfully, Redirecting you Login",
+        message: "Account Created Successfully, Redirecting you Login"
       });
       this.loading = !this.loading;
       setTimeout(() => {
@@ -577,12 +577,12 @@ export default {
           .then(() => {
             this.registration_success();
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
             this.registration_failed(error.response.data.message);
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,4 +1,4 @@
-const Symptoms = () => [
+const Symptoms = [
   "aging, premature",
   "fever",
   "hypothermia",
@@ -309,6 +309,6 @@ const Symptoms = () => [
   "striae distensae",
   "morning sickness",
   "eye pain",
-  "sweating sickness",
+  "sweating sickness"
 ];
-export default Symptoms();
+export default Symptoms;

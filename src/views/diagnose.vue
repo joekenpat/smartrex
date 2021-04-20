@@ -41,6 +41,7 @@
                   x-large
                   block
                   tile
+                  name="run_diagnose"
                   color="#41b883"
                   class="mb-5 elevation-1"
                   :disabled="!user_explanation || loading"
@@ -54,17 +55,21 @@
           <v-list v-if="result">
             <v-subheader class="mx-auto px-auto">Possible Ailments</v-subheader>
             <v-slide-x-transition class="py-0" group>
-              <template v-for="(disease,index) in diseases">
+              <template v-for="(disease, index) in diseases">
                 <v-list-item :key="disease">
-                  <v-list-item-avatar size="25" color="red accent-2" class="my-0">
-                    <v-icon color="white" v-text="index+1"></v-icon>
+                  <v-list-item-avatar
+                    size="25"
+                    color="red accent-2"
+                    class="my-0"
+                  >
+                    <v-icon color="white" v-text="index + 1"></v-icon>
                   </v-list-item-avatar>
                   <v-list-item-title v-text="disease"></v-list-item-title>
                   <v-divider
-                  v-if="index + 1 < diseases.length"
-                  :key="index"
-                  inset
-                ></v-divider>
+                    v-if="index + 1 < diseases.length"
+                    :key="index"
+                    inset
+                  ></v-divider>
                 </v-list-item>
               </template>
             </v-slide-x-transition>
@@ -73,6 +78,7 @@
             v-if="result"
             @click="result = false"
             block
+            name="run_another_diagnose"
             text
             color="#41b883"
             >Run Another Diagnose</v-btn
@@ -87,13 +93,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      diseases: [
-        'ant','goat','sdr'
-      ],
+      diseases: ["ant", "goat", "sdr"],
       loading: false,
       user_explanation: "",
       selected: [],
-      result: false,
+      result: false
     };
   },
   methods: {
@@ -101,12 +105,12 @@ export default {
       this.loading = true;
       axios
         .post("https://smartrex-server.herokuapp.com/api/v1/user/ai_diagnose", {
-          user_explanation: this.user_explanation,
+          user_explanation: this.user_explanation
         })
-        .then((res) => {
+        .then(res => {
           this.diseases = [];
           var diseases_found = res.data.data.diseases_found;
-          diseases_found.forEach((disease) => {
+          diseases_found.forEach(disease => {
             this.diseases.push(disease);
           });
           this.user_explanation = "";
@@ -114,14 +118,14 @@ export default {
           this.loading = false;
           return;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.result = false;
           this.loading = false;
           return;
         });
       return;
-    },
+    }
   },
   created() {},
   computed: {
@@ -134,7 +138,7 @@ export default {
       if (!user_explanation) return this.symptoms.slice(0, 5);
 
       return this.symptoms
-        .filter((item) => {
+        .filter(item => {
           const text = item.toLowerCase();
 
           return text.indexOf(user_explanation) > -1;
@@ -149,8 +153,8 @@ export default {
       }
 
       return selections;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

@@ -60,6 +60,14 @@ let router = new Router({
       component: () => import("../views/view_profile.vue"),
       props: true,
       meta: { requireAuth: true }
+    },
+    {
+      path: "/page_not_found",
+      alias: "/*",
+      name: "page_not_found",
+      component: () => import("../views/PageNotFound.vue"),
+      props: true,
+      meta: { requireAuth: false }
     }
   ]
 });

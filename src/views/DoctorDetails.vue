@@ -89,20 +89,20 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      windowHeight: `${window.innerWidth}px`,
+      windowHeight: `${window.innerWidth}px`
     };
   },
   computed: {
     ...mapGetters({ getDoctorDetail: "getDoctorDetailById" }),
     details() {
       return this.getDoctorDetail(this.doctor_id);
-    },
+    }
   },
   props: {
     doctor_id: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>

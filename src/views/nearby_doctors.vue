@@ -7,9 +7,12 @@
             <v-slide-x-transition class="py-0" group>
               <template v-for="(item, index) in nearby_doctors">
                 <v-list-item
-                  :to="{ name: 'doctor_details', params: { doctor_id: item._id.toString() } }"
+                  :to="{
+                    name: 'doctor_details',
+                    params: { doctor_id: item._id.toString() }
+                  }"
                   class="py-0 px-1"
-                  :key="'doctor_'+index"
+                  :key="'doctor_' + index"
                 >
                   <v-list-item-avatar
                     class="my-0 mr-3"
@@ -24,7 +27,10 @@
                     />
                   </v-list-item-avatar>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title class="font-weight-bold" v-text="item.name"></v-list-item-title>
+                    <v-list-item-title
+                      class="font-weight-bold"
+                      v-text="item.name"
+                    ></v-list-item-title>
                     <v-list-item-subtitle class="">
                       {{
                         `${item.specialty} - ${item.op_years} Years Experience`
@@ -54,11 +60,11 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      selected: "",
+      selected: ""
     };
   },
   computed: {
-    ...mapState(["nearby_doctors"]),
+    ...mapState(["nearby_doctors"])
   },
   created() {
     this.find_doctors();
@@ -68,7 +74,7 @@ export default {
     find_doctors() {
       this.$store.dispatch("fetch_nearby_doctors");
       return;
-    },
-  },
+    }
+  }
 };
 </script>

@@ -76,14 +76,14 @@ export default {
     return {
       loading: false,
       mobile_1: "",
-      password: "",
+      password: ""
     };
   },
   methods: {
     ...mapActions([
       "set_notification",
       "fetch_nearby_doctors",
-      "fetch_nearby_hospitals",
+      "fetch_nearby_hospitals"
     ]),
     ...mapMutations(["set_current_user", "set_user_data"]),
     login() {
@@ -92,22 +92,22 @@ export default {
         this.set_notification({
           show: true,
           status: "info",
-          message: "One or more empty fields.",
+          message: "One or more empty fields."
         });
       } else {
         // let auth_data = new FormData();
         // auth_data.append("mobile_1", this.mobile_1);
         // auth_data.append("pwd", this.password);
-        let auth_data ={
+        let auth_data = {
           mobile_1: this.mobile_1,
           pwd: this.password
-        }
+        };
 
         Axios.post(
           "https://smartrex-server.herokuapp.com/api/v1/user/auth",
           auth_data
         )
-          .then((res) => {
+          .then(res => {
             this.set_current_user(res.data._id);
             this.set_user_data(res.data);
             this.fetch_nearby_doctors();
@@ -115,25 +115,25 @@ export default {
             this.set_notification({
               show: true,
               status: "success",
-              message: "Login Successful, Redirecting in 2secs",
+              message: "Login Successful, Redirecting in 2secs"
             });
             this.loading = !this.loading;
             setTimeout(() => {
               this.$router.push("/diagnose");
             }, 2000);
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
             this.set_notification({
               show: true,
               status: "error",
-              message: error.response.data.message,
+              message: error.response.data.message
             });
             this.loading = !this.loading;
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

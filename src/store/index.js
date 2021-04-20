@@ -9,12 +9,12 @@ Vue.use(Vuex);
 const vuexLocal = new VuexPersist({
   key: "smartrexLocalStore",
   storage: window.localStorage,
-  reducer: (state) => ({
+  reducer: state => ({
     current_user: state.current_user,
     user_data: state.user_data,
     nearby_doctors: state.nearby_doctors,
-    nearby_hospitals: state.nearby_hospitals,
-  }),
+    nearby_hospitals: state.nearby_hospitals
+  })
 });
 
 export const store = new Vuex.Store({
@@ -27,8 +27,9 @@ export const store = new Vuex.Store({
     notification: {
       show: false,
       status: "info",
-      message: "",
+      message: ""
     },
+    connectedToNetwork: navigator.onLine
   },
   mutations: {
     set_current_user(state, val) {
@@ -46,19 +47,30 @@ export const store = new Vuex.Store({
     set_notification(state, val) {
       state.notification = { ...val };
     },
+    set_connected_to_network(state, val) {
+      state.connectedToNetwork = val;
+    }
   },
   getters: {
-    getDoctorDetailById: (state) => (doctor_id) => {
+    getDoctorDetailById: state => doctor_id => {
       return Array.from(state.nearby_doctors).find(
-        (doctor) => doctor._id.toString() == doctor_id
+        doctor => doctor._id.toString() == doctor_id
       );
     },
+    connectedToNetwork: state => state.connectedToNetwork
   },
   actions: {
+    set_connected_to_network({ commit }, val) {
+      commit("set_connected_to_network", val);
+    },
     set_notification({ commit }, val) {
       commit("set_notification", val);
       setTimeout(() => {
-        commit("set_notification", { show: false, status: "info", message: "" });
+        commit("set_notification", {
+          show: false,
+          status: "info",
+          message: ""
+        });
       }, 5000);
     },
     log_out({ commit }) {
@@ -72,13 +84,13 @@ export const store = new Vuex.Store({
     fetch_user_data({ commit, state }) {
       Axios.get("https://smartrex-server.herokuapp.com/api/v1/user/find", {
         params: {
-          user_id: state.current_user,
-        },
+          user_id: state.current_user
+        }
       })
-        .then((res) => {
+        .then(res => {
           commit("set_user_data", res.data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("error getting user Data");
           console.error(error);
           commit("set_user_data", {});
@@ -88,13 +100,13 @@ export const store = new Vuex.Store({
       Axios.get("https://smartrex-server.herokuapp.com/api/v1/user/find", {
         params: {
           user_type: "doctor",
-          user_city: state.user_data.city,
-        },
+          user_city: state.user_data.city
+        }
       })
-        .then((res) => {
+        .then(res => {
           commit("set_nearby_doctors", res.data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("error nearby doctors");
           console.error(error);
           commit("set_nearby_doctors", {});
@@ -104,19 +116,19 @@ export const store = new Vuex.Store({
       Axios.get("https://smartrex-server.herokuapp.com/api/v1/user/find", {
         params: {
           user_type: "hospital",
-          user_city: state.user_data.city,
-        },
+          user_city: state.user_data.city
+        }
       })
-        .then((res) => {
+        .then(res => {
           commit("set_nearby_hospitals", res.data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("error nearby hospitals");
           console.error(error);
           commit("set_nearby_hospitals", {});
         });
-    },
+    }
   },
   modules: {},
-  plugins: [vuexLocal.plugin],
+  plugins: [vuexLocal.plugin]
 });
